@@ -1,0 +1,5 @@
+        leading_whitespace_ignored
+    Read a whole line.      
+  The following sentences will be:
+        1. Concatenated to a whole string.
+        2. Separated by space.
