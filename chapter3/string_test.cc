@@ -32,5 +32,25 @@ int main()
     auto str_size=s2.size();                //str_size has the type string::size_type
     cout<<str_size<<" characters"<<endl;
 
+    for(auto &c:s4)     //ranged for(declaration:expression), must use ref to change the sequence
+    {
+        c=toupper(c);   //change the current letter to upper case
+    }
+    cout<<"Change to upper case: "<<s4<<endl;
+
+    s3+=",Er..."+s4;
+    cout<<"Origin: "<<s3<<endl;
+    s4="";
+    for(decltype(s3.size()) i=0; i<s3.size() ;++i)        //index must have type string::size_type, and must 0<i<.size()
+    {
+        if(!ispunct(s3[i]))
+        {
+           s4+=s3[i];
+        }
+    }
+    cout<<"Remove punctuation: "<<s4<<endl;
+
+    cout<<string{'t','e','m','p','1'}<<string("temp2")<<endl;   //temp string
+
     return 0;
 }
