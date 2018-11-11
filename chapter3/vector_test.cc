@@ -56,7 +56,7 @@ int main()
         v1.push_back(i);     //if the size of a vector is changed, then ranged for can't be used
     }
 
-    cout<<"The sum of adjacent elements: ";
+    cout<<"The sum of first-and-last elements: ";
     const auto &cv1=v1;
     for(decltype(cv1.size()) i=0;i<=(cv1.size()-1)/2;++i)
     {
@@ -114,6 +114,23 @@ int main()
     for(const auto &i:stat)
         cout<<i<<' ';
     cout<<endl;
+
+    cout<<"The sum of adjacent elements: ";
+    beg=v1.cbegin();
+    end=v1.cend();
+    while(beg!=end)
+    {
+        if((end-beg)>1)     //at least 2 element left, output the sum of two adjacent element
+        {
+            cout<<*beg+*(beg+1)<<' ';
+            beg+=2;
+        }
+        else                //only 1 element left, output the last element
+        {
+            cout<<*beg<<' ';
+            ++beg;
+        }
+    }
 
     return 0;
 }
