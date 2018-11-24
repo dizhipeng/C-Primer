@@ -183,22 +183,24 @@ int main()
 //
 //    cout<<endl;
 
-    //static cast test
-    int i=4;
-    double d=2.5;
-    
-//  i*=d;                                   //floating-point multiplication
-    i*=static_cast<int>(d);                 //integral multiplication
-    cout<<"static_cast to int: "<<i<<endl;
-
-    const string *ps;
-    char *pc;
-    void *pv;
-
-    pv=const_cast<string*>(ps);
-    i=static_cast<int>(*pc);
-    pv=static_cast<void*>(&d);
-    pc=static_cast<char*>(pv);
+//    //static cast test
+//    int i=4;
+//    double d=2.5;
+//    
+////  i*=d;                                   //floating-point multiplication
+//    i*=static_cast<int>(d);                 //integral multiplication
+//    cout<<"static_cast to int: "<<i<<endl;
+//
+//    const string *ps;
+//    char *pc;
+//    void *pv;
+//
+//    pv=const_cast<string*>(ps);
+//    i=static_cast<int>(*pc);
+//    pv=static_cast<void*>(&d);
+//    pc=static_cast<char*>(pv);
+//
+//cout<<"A"<<endl;
 
     return 0;
 
