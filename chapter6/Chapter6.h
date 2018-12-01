@@ -1,5 +1,8 @@
 #ifndef CHAPTER_6_H
 #define CHAPTER_6_H
+#include <vector>
+
+using ref_string_arr_10=std::string (&)[10];
 
 int absolute(int n);
 int factorial(int n);
@@ -7,5 +10,15 @@ void compute_fac();
 unsigned count_call();
 void swap_ints(int *a,int *b);
 void swap_ints(int &a,int &b);
+int hasUpper(const std::string &str);
+std::string &toUpper(std::string &str);
+void swap_int_ptr(const int *&p1,const int *&p2);
+void print_arr(const int *beg, const int *end);
+void print_arr(const int arr[],size_t sz);
+int cal_arr(char op,std::initializer_list<int> li);
+void print_vec(std::vector<int>::const_iterator beg,std::vector<int>::const_iterator end);
+std::string (&ret_arr1(std::string (&arr)[10]))[10];
+ref_string_arr_10 ret_arr2(std::string (&arr)[10]);
+auto ret_arr3(std::string (&arr)[10])->std::string (&)[10];
 
 #endif
