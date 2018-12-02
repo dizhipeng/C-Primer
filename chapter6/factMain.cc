@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cassert>
 #include "Chapter6.h"
 
 using std::cout;
@@ -81,9 +82,9 @@ int main()
 
     //reference returned from function is an lvalue
     //str_arr is not converted to &str_arr[0], but the array itself when the parameter is a reference to array
-    ret_arr1(str_arr)[0]="abc";
-    ret_arr2(str_arr)[1]="def";           
-    ret_arr3(str_arr)[2]="ghi";
+    ret_arr1(str_arr)[0]="abcdef";
+    ret_arr2(str_arr)[1]="defgh";           
+    ret_arr3(str_arr)[2]="ghij";
     ret_arr4(str_arr)[3]="jkl";
 
 
@@ -94,6 +95,48 @@ int main()
     }
 
     cout<<endl;
+
+    cout<<"Calling overloading functions: ";
+    //overload & matching
+    //f(2.56,42);           //ambiguous
+    f(5.6);
+    f(42);
+    f(42,0);
+    f(2.56,3.14);
+    cout<<endl;
+
+    cout<<"Default argument for plural: "; 
+    cout<<make_plural(2,"failure")<<" "<<       //failure uses default ending 's'
+        make_plural(2,"success","es")<<endl;    //success uses ending 'es'
+
+    cout<<"isShorter function is inline: "<<(isShorter("Shorter string","Longer than shorter string") ? "shorter" : "longer" )<<endl;
+
+    //test whether constexpr function returns a constexpr
+    constexpr size_t arr_sz=compute_arr_size(sizeof arr,sizeof *arr);       //sizeof operator generates constexpr, guarantees the constexpr functions return constexpr
+    constexpr size_t str_arr_sz=compute_arr_size(sizeof str_arr,sizeof *str_arr); 
+    cout<<"arr has: "<<arr_sz<<" elements"<<endl;
+    cout<<"str_arr has: "<<str_arr_sz<<" elements"<<endl;
+
+    //cout<<"Argument that is not a constexpr will let constexpr function return a non constexpr value: ";
+    //size_t sz1=0;
+    //cin.clear();
+    //cin>>sz1;
+    //constexpr size_t test_sz=compute_arr_size(sz1,1);       //constexpr check will fail
+
+    cout<<"plein ref shorter string: "<<shorterString(str_arr[0],str_arr[1])<<endl;
+    cout<<"const ref shorter string: "<<shorterString(const_cast<const string&>(str_arr[2]),const_cast<const string&>(str_arr[3]))<<endl;
+
+    cout<<"Debug information: "
+        <<"calling "<<__func__
+        <<", in file "<<__FILE__
+        <<", at line "<<__LINE__
+        <<", compiled at "<<__TIME__<<" "<<__DATE__<<endl;
+
+#ifndef NDEBUG
+    cout<<endl<<"If NDEBUG is not defined, the programe will now aborted because of assert(0)"<<endl;
+#endif
+
+    assert(0);
 
     return EXIT_SUCCESS;    //machine independent
 }

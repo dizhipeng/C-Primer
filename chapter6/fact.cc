@@ -163,3 +163,32 @@ auto ret_arr3(string (&arr)[10])->string (&)[10]
     return arr;
 }
 
+void f(int)     //parameter name can be omitted if not used
+{
+    cout<<"f(int);"<<" ";
+}
+void f(int,int)
+{
+    cout<<"f(int,int);"<<" ";
+}
+void f(double,double)
+{
+    cout<<"f(double,double);"<<" ";
+}
+
+string make_plural(size_t ctr, const string &word, const string &ending)
+{
+    return ctr>1 ? word+ending : word;
+}
+
+const string &shorterString(const string &s1,const string &s2)
+{
+    return s1.size()<s2.size() ? s1 : s2;
+}
+
+string &shorterString(string &s2,string &s2)
+{
+    const auto &cs1=s1,&cs2=s2;          //auto must use & to generate ref, can't deduction ref directly
+    auto &r=shorterString(cs1,cs2);      //calling the const version of shorterString
+    return const_cast<string &>(r);      //cast const away to get original plein ref
+}
