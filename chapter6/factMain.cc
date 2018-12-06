@@ -72,7 +72,7 @@ int main()
     cout<<"Add elements: "<<cal_arr('a',{2,5,6,7,1,9})<<endl;
     cout<<"Multiply elements: "<<cal_arr('m',{2,5,6,7,1,9})<<endl;
 
-    cout<<"recursively print vector: ";
+    cout<<"recursively print vector:"<<endl;
     vector<int> vec(begin(arr),end(arr));
     print_vec(vec.cbegin(),vec.cend());
     cout<<endl;
@@ -135,6 +135,36 @@ int main()
 #ifndef NDEBUG
     cout<<endl<<"If NDEBUG is not defined, the programe will now aborted because of assert(0)"<<endl;
 #endif
+
+    //fuction pointer test
+    vector<int (*)(int,int)> vec_fun1(10);      //write a function pointer type directly
+
+    //declare a function
+    int fun(int,int);
+    vector<decltype(fun)*> vec_fun2(10);        //using decltype to get a function type, then turn it to pointer by adding *
+
+    using FUN=int (int,int);                //using alias to declare a function type, or a function pointer type
+    using FUNP=int (*)(int,int);
+    vector<FUN*> vec_fun3(10);
+    vector<FUNP> vec_fun4(10);
+
+    cout<<"test the function pointer type..."<<(vec_fun1[0]=vec_fun2[0]=vec_fun3[0]=vec_fun4[0])<<"k"<<endl;
+
+    auto beg=vec_fun1.begin();
+    *beg++ = add_fun;                       //function is converted to function pointer
+    *beg++ = substract_fun;
+    *beg++ = multiply_fun;
+    *beg++ = divide_fun;
+
+    cout<<"Calling a op b, where op is +,-,*,/: ";
+    for(auto fun:vec_fun1)
+    {
+        if(nullptr!=fun)
+        {
+            cout<<fun(8,2)<<" ";        //function pointer is converted to function
+        }
+    }
+    cout<<endl;
 
     assert(0);
 

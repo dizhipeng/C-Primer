@@ -39,4 +39,9 @@ constexpr size_t compute_arr_size(size_t arr,size_t element)     //constexpr fun
 {
     return arr/element;      //Only if baseSize is initialized by a constexpr, the return value will be constexpr
 }
+
+int add_fun(int a,int b);
+int substract_fun(int a,int b);
+int multiply_fun(int a,int b);
+int divide_fun(int a,int b);
 #endif

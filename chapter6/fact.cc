@@ -142,15 +142,19 @@ void print_vec(vector<int>::const_iterator beg,vector<int>::const_iterator end) 
 {
     if(beg!=end)                //no more elements
     {
-        cout<<*beg++<<" ";      //print current element, proceed to next
-        print_vec(beg,end);
+#ifndef NDEBUG
+        cout<<"Calling "<<__func__<<" with vector size "<<end-beg<<endl;
+#else
+        cout<<*beg<<" ";      //print current element, proceed to next
+#endif
+        print_vec(++beg,end);
     }
 }
 
 //return parameter directly; 4 ways to return a reference of an array
 string (&ret_arr1(string (&arr)[10]))[10]        
 {
-   return arr;
+    return arr;
 }
 
 ref_string_arr_10 ret_arr2(string (&arr)[10])
@@ -186,9 +190,29 @@ const string &shorterString(const string &s1,const string &s2)
     return s1.size()<s2.size() ? s1 : s2;
 }
 
-string &shorterString(string &s2,string &s2)
+string &shorterString(string &s1,string &s2)
 {
     const auto &cs1=s1,&cs2=s2;          //auto must use & to generate ref, can't deduction ref directly
     auto &r=shorterString(cs1,cs2);      //calling the const version of shorterString
     return const_cast<string &>(r);      //cast const away to get original plein ref
+}
+
+int add_fun(int a,int b)
+{
+    return a+b;
+}
+
+int substract_fun(int a,int b)
+{
+    return a-b;
+}
+
+int multiply_fun(int a,int b)
+{
+    return a*b;
+}
+
+int divide_fun(int a,int b)
+{
+    return a/b;
 }
