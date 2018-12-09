@@ -27,7 +27,7 @@ ostream& print(ostream &out_stream,const Sales_data &book)
         <<book.isbn()<<' '
         <<book.copies<<' '
         <<book.revenue<<' '
-        <<book.revenue/book.copies;
+        <<book.average_price();
 
     return out_stream;
 }

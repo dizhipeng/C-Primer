@@ -11,16 +11,14 @@ int main()
 
     Sales_data total,trans;
 
-    double price=0;
+    double price=0.0;
 
-    if(cin>>total.book_isbn) //Input is not empty
+    if(cin>>total.book_isbn>>total.copies>>price) //Input is not empty
     {
-        cin>>total.copies>>price;
         total.revenue=price*total.copies;
 
-        while(cin>>trans.book_isbn)
+        while(cin>>trans.book_isbn>>trans.copies>>price)
         {
-            cin>>trans.copies>>price;
             trans.revenue=price*trans.copies;
 
             if(trans.book_isbn==total.book_isbn)  //The same ISBN

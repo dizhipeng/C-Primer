@@ -14,11 +14,13 @@ class Sales_data
         std::string book_isbn;      
         unsigned copies{0};             //in-class initializer is used in default constructor first
         double revenue={0.0};
+        double average_price() const {  return copies ? revenue/copies : 0.0; }
 
     public:     //interface
-        Sales_data()=default;
-        Sales_data(std::string b):book_isbn(b){}                        //use constructor initializer list
-        Sales_data(std::string b,unsigned c,double r):book_isbn(b),copies(c),revenue(r){}
+        Sales_data()=default;                                                                               //use synthesized default initialization
+        //Sales_data():copies(0),revenue(0.0){ std::cout<<"Default initialization"<<std::endl; }            //define default initialization function by hand
+        Sales_data(const std::string &b):book_isbn(b){}                        //use constructor initializer list
+        Sales_data(const std::string &b,unsigned c,double r):book_isbn(b),copies(c),revenue(r){}
         Sales_data(std::istream &in_stream){ read(in_stream,*this); }
         std::string isbn() const { return book_isbn; }                  //const member function
         Sales_data &combine(const Sales_data &rhs);                     //act like += operator,returns a lvalue 

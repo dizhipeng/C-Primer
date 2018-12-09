@@ -12,6 +12,9 @@ class Person
         std::string name;
         std::string address;
     public:
+        Person()=default;
+        Person(const std::string &n):name(n){}
+        Person(const std::string &n,const std::string &a):name(n),address(a){}
         std::string get_name() const { return name; }
         std::string get_address() const { return address; }
 

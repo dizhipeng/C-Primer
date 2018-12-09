@@ -7,10 +7,10 @@ using std::cin;
 
 int main()
 {
-    Person one,another;
+    Person one,another,third("jojo","Naples"),forth("boss");
 
     read(read(cin,one),another);
-    print(print(cout,one)<<endl,another)<<endl;
+    print(print(print(print(cout,one)<<endl,another)<<endl,third)<<endl,forth)<<endl;
 
     return EXIT_SUCCESS;
 }
