@@ -3,6 +3,12 @@
 
 #include <iostream>
 
+//declare the class
+class Sales_data;
+
+//declare the function; friend declaration can't used as normal declaration
+std::istream& read(std::istream &in_stream,Sales_data &book);          //act like >> operator
+
 class Sales_data
 {
     //friendship declaration
@@ -28,7 +34,6 @@ class Sales_data
 
 //function declaration
 Sales_data add(const Sales_data &lhs, const Sales_data &rhs);           //act like + operator,returns a rvalue
-std::istream& read(std::istream &in_stream,Sales_data &book);          //act like >> operator
 std::ostream& print(std::ostream &out_stream,const Sales_data &book);   //act like << operator
 
 #endif
