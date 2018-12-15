@@ -1,24 +1,21 @@
 #include <iostream>
 #include "Screen.h"
+#include "Window_mgr.h"
+#include "X_Y.h"
 
 using std::cout;
 using std::endl;
 
 int main()
 {
-    Screen front(5,6),back(4,10,'c');
+    //return the object as reference, thus it can be modified successively
+    Screen myScreen(5,5,'X');
+    myScreen.move(4,0).set('#').display(cout);
+    cout << "\n";
+    myScreen.display(cout);
+    cout << "\n";
 
-    cout<<front.get()<<" "<<back.get()<<endl;
-
-   // int a=11,*pa=&a;
-   // const int *ca1=pa;
-   // const auto ca2=pa;
-
-   // cout<<*ca1<<" "<<*ca2<<endl;
-
-    back.set('h').move(3,4).set('k').display(cout);
-    cout<<endl;
-
+    Window_mgr a;
 
     return EXIT_SUCCESS;
 }

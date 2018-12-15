@@ -11,6 +11,10 @@ int main()
 
     Sales_data total,trans;
 
+    //aggregate class test
+    //if in-classs initializer is used, there will be error
+    Sales_data item={"978-0590353403",25,15.99};
+
     double price=0.0;
 
     if(cin>>total.book_isbn>>total.copies>>price) //Input is not empty

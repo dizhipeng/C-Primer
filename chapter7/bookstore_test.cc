@@ -4,23 +4,33 @@
 using std::cin;
 using std::cout;
 using std::endl;
+using std::string;
 
 int main()
 {
     int amount=1;
 
-    Sales_data total,trans;             //default constructor
+    //default constructor
+    Sales_data total,trans;
 
-    Sales_data is_cstrct(cin);     //constructor that read from istream
     Sales_data one_cstrct("ISBN1");
     Sales_data three_cstrct("ISBN2",30,90);
+
+    //constructor that read from istream
+    Sales_data is_cstrct(cin);     
 
     cout<<"Test constructors: "<<endl;
     print(cout,is_cstrct)<<endl;
     print(cout,one_cstrct)<<endl;
     print(cout,three_cstrct)<<endl<<endl;
 
-    if(read(cin,total)) //Input is not empty
+    //implicit conversion from constructor
+    string null_isbn("9-999-99999-9");
+    Sales_data item1(null_isbn);
+    Sales_data item2("9-999-99999-9");
+
+    //Input is not empty
+    if(read(cin,total)) 
     {
         while(read(cin,trans))
         {

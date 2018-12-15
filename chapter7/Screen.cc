@@ -12,7 +12,7 @@ const Screen& Screen::display(ostream& out_stream) const
 
 Screen& Screen::display(ostream& out_stream)
 {
-
+    //type deduction with this pointer doesn't work correctly
     //const auto p1 = this;
     //const Screen *p1 = this;
     //p1->display();
