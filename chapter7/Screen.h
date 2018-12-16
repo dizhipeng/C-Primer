@@ -9,6 +9,7 @@ class Screen
     friend class Window_mgr;
 
     //declare friend member of class
+    //To be added....
 
     public:
 
@@ -34,7 +35,7 @@ class Screen
         //Overload a nonconst version of screen using the const version
         Screen& display(std::ostream& out_stream);
 
-    //private:
+    private:
         pos height=0;
         pos width=0;
         pos cursor=0;

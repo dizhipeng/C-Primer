@@ -14,6 +14,7 @@ int main()
     //aggregate class test
     //if in-classs initializer is used, there will be error
     Sales_data item={"978-0590353403",25,15.99};
+    item.empty();
 
     double price=0.0;
 

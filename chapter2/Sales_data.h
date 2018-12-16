@@ -16,6 +16,9 @@ struct Sales_data
     unsigned copies;
     double revenue;
 #endif
+
+    //aggregate class can have member functions
+    void empty();
 };
 
 #endif

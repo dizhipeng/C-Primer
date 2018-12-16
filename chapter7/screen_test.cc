@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Screen.h"
 #include "Window_mgr.h"
-#include "X_Y.h"
 
 using std::cout;
 using std::endl;
@@ -15,7 +14,11 @@ int main()
     myScreen.display(cout);
     cout << "\n";
 
-    Window_mgr a;
+    Window_mgr win;
+    win.addScreen(myScreen);
+    win.clear(0);
+    myScreen.display(cout);
+    cout << "\n";
 
     return EXIT_SUCCESS;
 }
