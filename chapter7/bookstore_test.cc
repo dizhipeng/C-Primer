@@ -1,14 +1,35 @@
 #include <iostream>
 #include "Sales_data.h"
 
+#ifdef FILE_STREAM
+#include <fstream>
+using std::ifstream;
+using std::ofstream;
+#else
 using std::cin;
 using std::cout;
+#endif
 using std::endl;
 using std::string;
 
-int main()
+int main(int argc,char** argv)
 {
     int amount=1;
+
+#ifdef FILE_STREAM
+    if(argc<3)
+    {
+        return EXIT_FAILURE;
+    }
+
+    ifstream cin(argv[1]);
+    ofstream cout(argv[2],ofstream::app);
+
+    if(!cin || !cout)
+    {
+        return EXIT_FAILURE;
+    }
+#endif
 
     //default constructor
     Sales_data total,trans;
