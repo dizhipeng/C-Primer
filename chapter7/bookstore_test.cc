@@ -5,6 +5,7 @@
 #include <fstream>
 using std::ifstream;
 using std::ofstream;
+using std::cerr;
 #else
 using std::cin;
 using std::cout;
@@ -19,6 +20,7 @@ int main(int argc,char** argv)
 #ifdef FILE_STREAM
     if(argc<3)
     {
+        cerr<<"Too few command arguments"<<endl;
         return EXIT_FAILURE;
     }
 
