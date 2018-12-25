@@ -167,8 +167,19 @@ int main(int argc,char **argv)
             }
             else
             {
-                valid<<" "<<format(n);
+                string num(n);
+                valid<<" "<<format(num);
             }
+        }
+
+        //no invalid numbers
+        if(invalid.str().empty())
+        {
+            cout<<p.name<<valid.str()<<endl;
+        }
+        else
+        {
+            cout<<p.name<<" has wrong numbers"<<endl;
         }
     }
 
