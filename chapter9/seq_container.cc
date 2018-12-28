@@ -2,6 +2,7 @@
 #include <vector>
 #include <deque>
 #include <list>
+#include <forward_list>
 
 using std::cout;
 using std::cin;
@@ -10,6 +11,8 @@ using std::string;
 using std::vector;
 using std::deque;
 using std::list;
+using std::out_of_range;
+using std::forward_list;
 
 bool find_element(vector<int>::iterator begin,
         vector<int>::iterator end,
@@ -28,6 +31,33 @@ bool find_element(vector<int>::iterator begin,
     return iter!=end;
 }
 
+void insert_fl(forward_list<string> &fl,const string &s1,const string &s2)
+{
+    auto prev=fl.before_begin();
+    auto curr=fl.begin();
+
+    bool exist=false;
+
+    while(curr!=fl.end())
+    {
+        if(*curr==s1)
+        {
+            exist=true;
+            
+            //curr points to the new inserted string
+            curr=fl.insert_after(curr,s2);
+        }
+
+        prev=curr++;
+    }
+
+    //no s2 exists, after insert the last element
+    if(!exist)
+    {
+        fl.insert_after(prev,s2);
+    }
+
+}
 int main(int argc,char **argv)
 {
     list<deque<int>> test;
@@ -139,24 +169,126 @@ int main(int argc,char **argv)
     {
         //the next element, can be end()
         auto it2_next=it2+1;
-        
-        //insert act like a push_front for vectors, when vector doesn't have push_front
-        //insert position other than the last can be slow for vector
-        it1=v1.insert(it1,it2,it2_next);
-        
+
         if(it2_next!=v2.cend())
         {
+            //insert act like a push_front for vectors, when vector doesn't have push_front
+            //insert position other than the last can be slow for vector
+            //form insert(p,b,e) inserts [b,e) elements, so we insert two elements in this case
+            it1=v1.insert(it1,it2,it2_next+1);
+
             //jump to the next two elements
             it2=it2_next+1;
         }
         else
         {
+            //insert the last element
+            it1=v1.insert(it1,it2,it2_next);
+
             //no more elements
             break;
         }
     }
 
-    for(auto const &ele:v1)
+    //size of v1 is now 1
+    v1 = {6};
+    cout<<"test the element: "<<v1.front()<<" "
+        <<v1.back()<<" "
+        <<*v1.cbegin()<<" "
+        <<*(v1.cend()-1)<<endl;
+    
+    //access elements from an empty vector
+    v1.clear();
+    try
+    {
+        //when using at() with an ilegal index, an out-of-ranged exception is thrown
+        cout<<v1.at(0)<<endl;
+
+        cout<<"Others ways don't throw exceptions, but are undefined"<<endl;
+        cout<<v1[0]<<endl;
+        cout<<v1.front()<<endl;
+        cout<<*v1.cbegin()<<endl;
+    }
+    catch(out_of_range e)
+    {
+        cout<<"Out of range exception thrown:"<<endl;
+        cout<<e.what()<<endl;
+    }
+
+    //two same iterators mark an empty range
+    v2.erase(v2.begin(),v2.begin());
+    v2.erase(v2.end(),v2.end());
+
+    //copy an array into containers
+    int ia[]={0,1,1,2,3,5,8,13,21,55,89};
+    v1.assign(std::begin(ia),std::end(ia));
+    l1.assign(std::begin(ia),std::end(ia));
+
+    it1=v1.begin();
+    auto it3=l1.begin();
+
+    while(it1!=v1.end()&&it3!=l1.end())
+    {
+        //odd values in vector are kept
+        if(*it1%2)
+        {
+            ++it1;
+        }
+        else
+        {
+            //erase returns the iterator after the last removed one
+            //increment the iterator automatically
+            it1=v1.erase(it1);
+        }
+
+        //even values in list
+        if(!(*it3%2))
+        {
+            ++it3;
+        }
+        else
+        {
+            it3=l1.erase(it3);
+        }
+
+    }
+
+    forward_list<int> f1(std::begin(ia),std::end(ia));
+
+    //forward list usually need two iterators to operate
+    auto prev=f1.before_begin();
+    auto curr=f1.begin();
+
+    while(curr!=f1.end())
+    {
+        //odd value
+        if(*curr%2)
+        {
+            //original current element is erased
+            //new current element is the next one
+            //prev stays the same
+            curr=f1.erase_after(prev);
+        }
+        else
+        {
+            //two iterators move forward
+            prev=curr++;
+        }
+    }
+
+    forward_list<string> f2={"insert","after","one","special","word"};
+
+    insert_fl(f2,"not","one");
+    insert_fl(f2,"one","very");
+    insert_fl(f2,"one","not");
+
+    //added elements are value-initialized if no initial value is provided
+    v2.resize(100);
+
+    //tail elements are removed
+    v2.resize(10);
+
+    for(auto const &ele:v2)
     {
         cout<<ele<<endl;
     }
