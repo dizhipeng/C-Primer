@@ -13,6 +13,8 @@ using std::deque;
 using std::list;
 using std::out_of_range;
 using std::forward_list;
+using std::begin;
+using std::end;
 
 bool find_element(vector<int>::iterator begin,
         vector<int>::iterator end,
@@ -58,6 +60,7 @@ void insert_fl(forward_list<string> &fl,const string &s1,const string &s2)
     }
 
 }
+
 int main(int argc,char **argv)
 {
     list<deque<int>> test;
@@ -70,7 +73,7 @@ int main(int argc,char **argv)
         <<find_element(v1.begin(),v1.end(),ele1)<<" "
         <<find_element(v1.begin(),v1.end(),ele2)<<endl;
 
-    vector<int> v2={2,5,1,7,4,8,0,9,3};
+    vector<int> v2={4,5,1,2,7,6,8,9,3};
     list<int> l1(v2.begin(),v2.end());
 
     //initial vector<double> from list<int> and vector<int>
@@ -253,7 +256,7 @@ int main(int argc,char **argv)
 
     }
 
-    forward_list<int> f1(std::begin(ia),std::end(ia));
+    forward_list<int> f1(begin(ia),end(ia));
 
     //forward list usually need two iterators to operate
     auto prev=f1.before_begin();
@@ -288,8 +291,79 @@ int main(int argc,char **argv)
     //tail elements are removed
     v2.resize(10);
 
-    for(auto const &ele:v2)
+    f1.assign(v2.begin(),v2.end());
+    l1.assign(v2.begin(),v2.end());
+
+    prev=f1.before_begin();
+    curr=f1.begin();
+    it3=l1.begin();
+    
+    //remove odd elements duplicate even ones
+    while(it3!=l1.end()&&curr!=f1.end())
     {
-        cout<<ele<<endl;
+        if(*it3%2)
+        {
+            it3=l1.insert(it3,*it3);
+            //list doesn't not have arithmetic operator
+            ++it3;
+            ++it3;
+        }
+        else
+        {
+            it3=l1.erase(it3);
+        }
+
+        if(*curr%2)
+        {
+            //curr is the inserted element
+            curr=f1.insert_after(prev,*curr);
+
+            //curr is the original odd element
+            ++curr;
+
+            //curr is the next element
+            prev=curr++;
+        }
+        else
+        {
+            curr=f1.erase_after(prev);
+        }
     }
+
+    //Test the wrong insert use
+    //
+    //it1=v2.begin();
+    //while(it1!=v2.end())
+    //{
+    //    if(*it1%2)
+    //    {
+    //        it1=v2.insert(it1,*it1);
+    //        ++it1;
+    //    }
+    //    ++it1;
+    //}
+    
+    //Print the result
+    //
+    //for(auto const &ele:v2)
+    //{
+    //    cout<<ele<<endl;
+    //}
+    vector<int> v6;
+    //last space is the maximum size at first
+    auto last_space=v6.max_size();
+    while(v6.capacity()<1000)
+    {
+        if(last_space!=v6.capacity())
+        {
+            cout<<"v6's capacity is now "<<v6.capacity()
+                <<", it has "<<v6.size()<<" elements."<<endl;
+            last_space=v6.capacity();
+        }
+
+        //Different insert method can cause different growth
+        //v6.insert(v6.end(),v6.capacity()-v6.size()+1,0);
+        v6.push_back(0);
+    }
+
 }
