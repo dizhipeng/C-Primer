@@ -1,11 +1,12 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <list>
 #include <algorithm>
 #include "Sales_data.h"
 
 using std::cout;
-using std::cin;
+using std::cerr;
 using std::endl;
 using std::string;
 using std::vector;
@@ -13,6 +14,7 @@ using std::list;
 using std::begin;
 using std::end;
 using std::equal;
+using std::ifstream;
 
 bool isShorter(const string &s1,const string &s2)
 {
@@ -142,20 +144,50 @@ int main(int argc,char **argv)
     for(const auto &ele:words)
         cout<<ele<<endl;
 
-    //save all books from cin
+    //save all books from ifstream
+    ifstream ifstrm("book_sales");
+
+    //test whether file open is ok
+    if(!ifstrm)
+    {
+        cerr<<"File open fails"<<endl;
+        return EXIT_FAILURE;
+    }
+
     vector<Sales_data> books;
     Sales_data tmp;
-    while(read(cin,tmp))
+    while(read(ifstrm,tmp))
     {
         books.push_back(tmp);
     }
 
+    books.erase(books.begin()+10,books.end());
     //sort books as isbn using sort, given a isbn compare predicate
     sort(books.begin(),books.end(),compareIsbn);
 
     for(const auto &ele:books)
     {
         print(cout,ele)<<endl;
+    }
+
+    cout<<endl;
+    auto book_it=books.cbegin();
+    while(book_it!=books.cend())
+    {
+        //find the next record with a different isbn
+        auto next_isbn=find_if(book_it,books.cend(),
+                [book_it](const Sales_data &b){return b.isbn()!=book_it->isbn();});
+
+        //initial value for accumulate is a Sales_data object *book_it
+        //accumulate begins at the next object of book_it, ranges [book_it+1,next_isbn)
+        //Sale_data doesn't have + operator, a binary operattion must be provided
+        auto sum=accumulate(book_it+1,next_isbn,*book_it,
+                [](const Sales_data &b1,const Sales_data &b2){return add(b1,b2);});
+
+        print(cout,sum)<<endl;
+
+        //proceed to the next isbn
+        book_it=next_isbn;
     }
 
     return EXIT_SUCCESS;
