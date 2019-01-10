@@ -37,6 +37,7 @@ int main(int argc,char **argv)
                           "que",
                           "je",
                           "vois"};
+    list<string> l_words(words.cbegin(),words.cend());
 
     sort(words.begin(),words.end());
 
@@ -86,9 +87,8 @@ int main(int argc,char **argv)
     istream_iterator<string> isit1(ifstrm),ieof1;
 
     words.clear();
-    size_t line=0;
 #ifndef COPY_INSERTER
-    while(isit1!=ieof1&&++line<=10*3)
+    while(isit1!=ieof1)
     {
         //++ operator demands a read
         //* operator returns the content
@@ -124,9 +124,9 @@ int main(int argc,char **argv)
     //open a new input file and bind to a new istream iterator
     ifstrm.close();
     ifstrm.open("integers");
-    if(ifstrm)
+    if(!ifstrm)
     {
-        cerr<<"File open fails"<<endl;
+        cerr<<"input file open fails"<<endl;
         return EXIT_FAILURE;
     }
     istream_iterator<int> isit3(ifstrm),ieof3;
@@ -135,7 +135,7 @@ int main(int argc,char **argv)
     ofstream of_odd("odd"),of_even("even");
     if(!of_odd||!of_even)
     {
-        cerr<<"File open fails"<<endl;
+        cerr<<"output file open fails"<<endl;
         return EXIT_FAILURE;
     }
     ostream_iterator<int> it_odd(of_odd," ");
@@ -157,6 +157,55 @@ int main(int argc,char **argv)
         //read a new value
         ++isit3;
     }
+
+    //print elements reversely using reverse iterator
+    v2={1,2,0,3,4,0,5,6};
+    cout<<endl<<"print reversely(reverse iterator): ";
+    auto rever=v2.crbegin();
+    while(rever!=v2.crend())
+    {
+        cout<<*rever++<<" ";
+    }
+
+    //print reversely using normal iterator
+    auto it2=v2.cend();
+    cout<<endl<<"print reversely(normal iterator): ";
+    while(it2!=v2.cbegin())
+    {
+        cout<<*--it2<<" ";
+    }
+    cout<<endl;
+
+    list<int> l2(v2.cbegin(),v2.cend());
+    
+    //reverse iterator act just like normal iterator:
+    //traverse from rbegin to rend, ++riter
+    //yet the internal behavior is the opposite
+    auto it_0=find(l2.crbegin(),l2.crend(),0);
+    
+    auto l_size=l2.size()-1;
+    
+    auto rever2=l2.crbegin();
+    while(rever2!=it_0)
+    {
+        --l_size;
+        ++rever2;
+    }
+    cout<<"the last 0 is at list["<<l_size<<"]"<<endl;
+
+    v2={1,2,3,4,5,6,7,8,9,10};
+    l2.assign(v2.crbegin()+3,v2.crbegin()+8);
+
+    cout<<"copy with reverse iterator: ";
+    for(const auto &ele:l2)
+    {
+        cout<<ele<<" ";
+    }
+    cout<<endl;
+
+    //remove duplicates elements in list
+    l_words.sort();
+    l_words.unique();
 
     return EXIT_SUCCESS;
 }
