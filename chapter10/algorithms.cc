@@ -161,7 +161,7 @@ int main(int argc,char **argv)
         books.push_back(tmp);
     }
 
-    books.erase(books.begin()+10,books.end());
+    books.erase(books.begin(),books.end());
     //sort books as isbn using sort, given a isbn compare predicate
     sort(books.begin(),books.end(),compareIsbn);
 
