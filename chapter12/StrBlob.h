@@ -5,10 +5,14 @@
 #include <vector>
 #include <string>
 #include <iostream>
+//#include "StrBlobPtr.h"
 
 class StrBlob
 {
+    friend class StrBlobPtr;
+
     public:
+        //size & index type
         using size_type=std::vector<std::string>::size_type;
         //make_shared allocates dynamic memory
         //and initialize it using args in ()
@@ -24,6 +28,10 @@ class StrBlob
         const std::string &back() const;
         size_type size() const;
         bool empty() const;
+
+        ////iterator range
+        //StrBlobPtr begin() const;
+        //StrBlobPtr end() const;
 
     private:
         std::shared_ptr<std::vector<std::string>> data;

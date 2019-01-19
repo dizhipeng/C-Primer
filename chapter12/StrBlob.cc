@@ -68,3 +68,13 @@ bool StrBlob::empty() const
 {
     return data->empty();
 }
+
+//StrBlobPtr StrBlobPtr::begin() const
+//{
+//    return StrBlobPtr(*this,0);
+//}
+//
+//StrBlobPtr StrBlobPtr::end() const
+//{
+//    return StrBlobPtr(*this,data->size());
+//}

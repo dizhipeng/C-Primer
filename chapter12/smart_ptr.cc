@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <sstream>
 #include <memory>
-#include <cstring>
 #include "StrBlob.h"
+#include "StrBlobPtr.h"
 
 using std::cout;
 using std::cin;
@@ -20,6 +20,7 @@ using std::shared_ptr;
 using std::make_shared;
 using std::istream;
 using std::ostream;
+using std::weak_ptr;
 
 shared_ptr<vector<int>> make_vec()
 {
@@ -67,29 +68,12 @@ void end_connection(connection *c)
     cout<<"connection "<<*c<<endl;
 }
 
-char* concat_cp(const char cp1[],const char cp2[])
-{
-    size_t len1=strlen(cp1),len2=strlen(cp2);
-
-    //allocate memory, must reserve space for '\0'
-    char *p=new char[len1+len2+1]();
-
-    strcpy(p,cp1);
-    strcat(p,cp2);
-
-    return p;
-}
-
-char* concat_str(const string &s1,const string &s2)
-{
-    return concat_cp(s1.c_str(),s2.c_str());
-}
-
 int main(int argc,char **argv)
 {
     StrBlob b1;
     {
         StrBlob b2={"a","an","the"};
+        //++ref_count
         b1=b2;
 
         cout<<"b1 and b2 are the same originally: "<<endl<<"b1: ";
@@ -100,8 +84,11 @@ int main(int argc,char **argv)
         cout<<"call push_back to b1 changes b2 as well: "<<endl<<"b1: ";
         b1.print(cout)<<"  b2: ";
         b2.print(cout)<<endl;
+
+        //--ref_count
     }
 
+    //++ref_count
     const StrBlob b3=b1;
     cout<<"const member function test: "<<b1.back()<<" "<<b3.back()<<endl;
 
@@ -151,14 +138,23 @@ int main(int argc,char **argv)
             [](connection *c){*c="closed";
             cout<<"connection "<<*c<<endl;});
 
-    cout<<"string concat: ";
-    auto cp1=concat_cp("hello"," world");
-    auto cp2=concat_str("bonjour"," monde");
+    auto sp1=make_shared<int>(99),sp2=make_shared<int>(150);
 
-    cout<<cp1<<" -> "<<cp2<<endl;
+    //top-level const weak pointer
+    const weak_ptr<int> wp1(sp1);
+    cout<<"smart pointer const test: "<<++*wp1.lock()<<" ";
 
-    delete [] cp1;
-    delete [] cp2;
+    //low-level const weak pointer
+    weak_ptr<const int> wp2(sp1);
+    wp2=sp2;
+    cout<<*wp2.lock()<<endl;
+
+    //StrBlobPtr & StrBlob test 
+    StrBlobPtr p1(b1);
+    cout<<p1.deref()<<" ";
+
+    p1.deref()="eht";
+    cout<<p1.deref()<<endl;
 
     return EXIT_SUCCESS;
 }
