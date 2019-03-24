@@ -3,6 +3,9 @@
 using std::out_of_range;
 using std::string;
 using std::ostream;
+using std::make_shared;
+using std::vector;
+using std::string;
 
 ostream& StrBlob::print(ostream &out) const
 {
@@ -69,6 +72,15 @@ bool StrBlob::empty() const
     return data->empty();
 }
 
+#ifdef VALUE_LIKE
+StrBlob& StrBlob::operator=(const StrBlob &rhs)
+{
+    //reference count of the left operand will decrease by 1
+    data=make_shared<vector<string>>(*rhs.data);
+
+    return *this;
+}
+#endif
 //StrBlobPtr StrBlobPtr::begin() const
 //{
 //    return StrBlobPtr(*this,0);

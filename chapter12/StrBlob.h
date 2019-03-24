@@ -29,6 +29,11 @@ class StrBlob
         size_type size() const;
         bool empty() const;
 
+#ifdef VALUE_LIKE
+        //copy control member
+        StrBlob(const StrBlob &s):data(std::make_shared<std::vector<std::string>>(*s.data)){}
+        StrBlob& operator=(const StrBlob &rhs);
+#endif
         ////iterator range
         //StrBlobPtr begin() const;
         //StrBlobPtr end() const;
@@ -36,6 +41,5 @@ class StrBlob
     private:
         std::shared_ptr<std::vector<std::string>> data;
         void check(size_type sz,const std::string &msg) const;
-
 };
 #endif

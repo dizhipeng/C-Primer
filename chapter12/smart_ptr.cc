@@ -156,5 +156,13 @@ int main(int argc,char **argv)
     p1.deref()="eht";
     cout<<p1.deref()<<endl;
 
+    StrBlob b4={"StrBlob is","value","like"},b5=b4;
+    //StrBlob is by default act like pointer
+    //consequently, if copy control isn't provided
+    //any changes to b5 will also be applied to b4
+    b5.front()="StrBlob isn't";
+    b5.push_back("but shared");
+    b4.print(cout)<<endl;
+
     return EXIT_SUCCESS;
 }
