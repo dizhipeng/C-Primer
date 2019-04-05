@@ -24,5 +24,19 @@ int main(int argc,char** argv)
     }
     cout<<"v2:"<<v2<<endl;
 
+    v2.reserve(50);
+    cout<<v2<<endl;
+    v2.reserve(20);
+    cout<<v2<<endl;
+
+    v2.resize(10);
+    cout<<v2<<endl;
+    v2.resize(60);
+    cout<<v2<<endl;
+    v2.resize(0);
+    cout<<v2<<endl;
+    v2.resize(20);
+    cout<<v2<<endl;
+
     return EXIT_SUCCESS;
 }

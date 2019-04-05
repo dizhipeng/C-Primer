@@ -19,28 +19,39 @@ pair<string*,string*> StrVec::alloc_n_copy
 }
 
 //destruct the vector
-void StrVec::free()
+void StrVec::free(size_t n)
 {
     if(elements)
     {
         //destruct elements reversely
-        while(first_free!=elements)
+        while(first_free!=elements+n)
         {
             alloc.destroy(--first_free);
         }
-        //free the allocated space
-        alloc.deallocate(elements,capacity());
+        //free the allocated space if no element exists
+        if(first_free == elements)
+        {
+            alloc.deallocate(elements,capacity());
+            //For display purpose, set all pointer to nullptr
+            elements = first_free = cap = nullptr;
+        }
     }
 }
 
 //make more space
-void StrVec::reallocate()
+void StrVec::reallocate(size_t n)
 {
-    auto curr_cap=capacity();
+    size_t space = n;
 
-    //if the vector isn't allocated, allocate 1 space
-    //else, double the current space
-    size_t space = curr_cap==0 ? 1 : 2*curr_cap;
+    //allocate based on the current size
+    if( n == 0 )
+    {
+        auto curr_cap=capacity();
+
+        //if the vector isn't allocated, allocate 1 space
+        //else, double the current space
+        space = curr_cap==0 ? 1 : 2*curr_cap;
+    }
 
     auto new_ele = alloc.allocate(space);
 
@@ -92,4 +103,30 @@ StrVec& StrVec::operator=(const StrVec &s)
 StrVec::~StrVec()
 {
     free();
+}
+
+void StrVec::reserve(size_t n)
+{
+    if(n>capacity())
+    {
+        reallocate(n);
+    }
+}
+
+void StrVec::resize(size_t n)
+{
+    //less than the current size, destroy redundant elements
+    if(n<size())
+    {
+        free(n);
+    }
+    //more than the current size, create value-init elements
+    else
+    {
+        auto origin_size=size();
+        for(size_t i=0;i<n-origin_size;++i)
+        {
+            push_back("");
+        }
+    }
 }
