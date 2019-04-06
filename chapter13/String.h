@@ -14,11 +14,17 @@ class String
 
         //copy control
         String(const String &s);
+#ifdef USING_SWAP
         String& operator=(String s);
+#else
+        String& operator=(const String &s);
+#endif
         ~String();
     private:
+        void freeStr();
         static std::allocator<char> alloc_char;
         char* c_ptr = nullptr;
+        // '\0' included
         size_t len = 0;
 };
 
