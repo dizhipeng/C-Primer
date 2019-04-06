@@ -1,10 +1,12 @@
 #include <memory>
+#include <algorithm>
 #include "StrVec.h"
 
 using std::string;
 using std::ostream;
 using std::allocator;
 using std::pair;
+using std::initializer_list;
 
 //static member definition for the allocator
 allocator<string> StrVec::alloc;
@@ -23,11 +25,15 @@ void StrVec::free(size_t n)
 {
     if(elements)
     {
-        //destruct elements reversely
-        while(first_free!=elements+n)
-        {
-            alloc.destroy(--first_free);
-        }
+        ////destruct elements reversely
+        //while(first_free!=elements+n)
+        //{
+            //alloc.destroy(--first_free);
+        //}
+
+        for_each(elements+n,first_free,[](string &s){alloc.destroy(&s);});
+        first_free = elements + n;
+
         //free the allocated space if no element exists
         if(first_free == elements)
         {
@@ -69,7 +75,7 @@ void StrVec::reallocate(size_t n)
     cap =  new_ele + space;
 }
 
-void StrVec::push_back(const std::string &s)
+void StrVec::push_back(const string &s)
 {
     //make sure there is room for new element
     chk_n_alloc();
@@ -128,5 +134,13 @@ void StrVec::resize(size_t n)
         {
             push_back("");
         }
+    }
+}
+
+StrVec::StrVec(initializer_list<string> l)
+{
+    for(const auto &s:l)
+    {
+        push_back(s);
     }
 }

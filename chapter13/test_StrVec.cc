@@ -1,11 +1,13 @@
 #include <iostream>
 #include "StrVec.h"
+#include "String.h"
 
 using std::cout;
 using std::endl;
 
 int main(int argc,char** argv)
 {
+    //test basic allocation
     StrVec v1;
     for(size_t i=0;i!=33;++i)
     {
@@ -13,7 +15,11 @@ int main(int argc,char** argv)
         cout<<v1<<endl;
     }
 
-    StrVec v2=v1;
+    //test constructor with initializer_list
+    StrVec v2={"abc","def","ghi"};
+    cout<<v2<<endl;
+
+    //test copy control
     {
         StrVec v3=v1;
         v3.push_back("");
@@ -24,6 +30,7 @@ int main(int argc,char** argv)
     }
     cout<<"v2:"<<v2<<endl;
 
+    //test advanced interfaces
     v2.reserve(50);
     cout<<v2<<endl;
     v2.reserve(20);
@@ -37,6 +44,15 @@ int main(int argc,char** argv)
     cout<<v2<<endl;
     v2.resize(20);
     cout<<v2<<endl;
+
+    //test String class
+    String s1="Hello, world";
+    String s2=s1,s3="Test Test";
+    s1="Bonjour, monde";
+    s3=s2;
+    cout<<s1<<endl;
+    cout<<s2<<endl;
+    cout<<s3<<endl;
 
     return EXIT_SUCCESS;
 }

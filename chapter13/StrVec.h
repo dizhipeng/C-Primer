@@ -8,6 +8,7 @@ class StrVec
     friend std::ostream& operator<<(std::ostream& out,const StrVec &s);
     public:
         StrVec()=default;
+        StrVec(std::initializer_list<std::string> l);
 
         //copy control
         StrVec(const StrVec &s);
