@@ -1,4 +1,5 @@
 #include "StrBlob.h"
+#include "StrBlobPtr.h"
 
 using std::out_of_range;
 using std::string;
@@ -7,9 +8,9 @@ using std::make_shared;
 using std::vector;
 using std::string;
 
-ostream& StrBlob::print(ostream &out) const
+ostream& operator<<(ostream &out,const StrBlob &s)
 {
-    for(const auto ele:*data)
+    for(const auto &ele:*s.data)
     {
         out<<ele<<" ";
     }
@@ -81,12 +82,13 @@ StrBlob& StrBlob::operator=(const StrBlob &rhs)
     return *this;
 }
 #endif
-//StrBlobPtr StrBlobPtr::begin() const
-//{
-//    return StrBlobPtr(*this,0);
-//}
-//
-//StrBlobPtr StrBlobPtr::end() const
-//{
-//    return StrBlobPtr(*this,data->size());
-//}
+
+StrBlobPtr StrBlob::begin() const
+{
+    return StrBlobPtr(*this,0);
+}
+
+StrBlobPtr StrBlob::end() const
+{
+    return StrBlobPtr(*this,data->size());
+}

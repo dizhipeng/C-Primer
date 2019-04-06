@@ -5,11 +5,13 @@
 #include <vector>
 #include <string>
 #include <iostream>
-//#include "StrBlobPtr.h"
+
+class StrBlobPtr;
 
 class StrBlob
 {
     friend class StrBlobPtr;
+    friend std::ostream& operator<<(std::ostream &out,const StrBlob &s);
 
     public:
         //size & index type
@@ -19,7 +21,6 @@ class StrBlob
         StrBlob():data(std::make_shared<std::vector<std::string>>()){};
         StrBlob(std::initializer_list<std::string> li):
             data(std::make_shared<std::vector<std::string>>(li)){};
-        std::ostream& print(std::ostream &out) const;
         void push_back(const std::string &s);
         void pop_back();
         std::string &front();
@@ -34,9 +35,9 @@ class StrBlob
         StrBlob(const StrBlob &s):data(std::make_shared<std::vector<std::string>>(*s.data)){}
         StrBlob& operator=(const StrBlob &rhs);
 #endif
-        ////iterator range
-        //StrBlobPtr begin() const;
-        //StrBlobPtr end() const;
+        //iterator range
+        StrBlobPtr begin() const;
+        StrBlobPtr end() const;
 
     private:
         std::shared_ptr<std::vector<std::string>> data;

@@ -76,14 +76,14 @@ int main(int argc,char **argv)
         //++ref_count
         b1=b2;
 
-        cout<<"b1 and b2 are the same originally: "<<endl<<"b1: ";
-        b1.print(cout)<<"  b2: ";
-        b2.print(cout)<<endl;
+        cout<<"b1 and b2 are the same originally: "<<endl;
+        cout<<"b1: "<<b1<<endl;
+        cout<<"b2: "<<b2<<endl;
 
         b2.push_back("about");
-        cout<<"call push_back to b1 changes b2 as well: "<<endl<<"b1: ";
-        b1.print(cout)<<"  b2: ";
-        b2.print(cout)<<endl;
+        cout<<"call push_back to b1 changes b2 as well: "<<endl;
+        cout<<"b1: "<<b1<<endl;
+        cout<<"b2: "<<b2<<endl;
 
         //--ref_count
     }
@@ -162,7 +162,9 @@ int main(int argc,char **argv)
     //any changes to b5 will also be applied to b4
     b5.front()="StrBlob isn't";
     b5.push_back("but shared");
-    b4.print(cout)<<endl;
+    cout<<b4<<endl;
 
+    //access iterators fer StrBlob
+    cout<<"First string of b4 is: "<<b4.begin().deref()<<endl;
     return EXIT_SUCCESS;
 }
