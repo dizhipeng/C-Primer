@@ -9,7 +9,7 @@ using std::endl;
 int main(int argc,char **argv)
 {
     Quote book("Normal",10);
-    Bulk_quote book_discount("Discount",10,5,0.8);
+    Bulk_quote book_discount("Bulk",10,5,0.8);
     Limit_quote book_limit("Limited",10,4,0.6);
 
     print_total(cout,book,8)<<endl;

@@ -1,7 +1,10 @@
 #ifndef BULK_QUOTE_H
 #define BULK_QUOTE_H
 
-#include <string>
+#include <iostream>
+
+#ifdef NO_DISC
+
 #include "Quote.h"
 
 class Bulk_quote: public Quote
@@ -21,5 +24,21 @@ class Bulk_quote: public Quote
         size_t min_copie=0;
         double discount=1.0;
 };
+
+#else
+
+#include "Disc_quote.h"
+
+class Bulk_quote: public Disc_quote
+{
+    public:
+        Bulk_quote()=default;
+        //using base class's constructor to initialize its member
+        Bulk_quote(const std::string &s, double d,size_t n,double p):Disc_quote(s,d,n,p){}
+        //derived class overrides the base class virtual function
+        double net_price(size_t n) const override;
+};
+
+#endif
 
 #endif
